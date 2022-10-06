@@ -15,11 +15,30 @@ class LandingViewViewModel : ObservableObject {
     private var contactsService: LocalContactsService = .init()
     
     var contacts = [ContactInfo.init(firstName: "", lastName: "", emailAddress: [])]
+    var favouriteGroup: CNGroup?
     
     init() {
-        contactsService.requestAccess()
-        self.contacts = fetchContacts()
-        print(self.contacts)
+        
+    }
+    
+    func createHazChatGroup() {
+        if contactsService.requestAccessAndCreateGroup() {
+            favouriteGroup = contactsService.contactGroup
+            print("HazChat Group(\(favouriteGroup?.name ?? "")) Set")
+        } else {
+            print("Error Creating Group")
+        }
+    }
+    
+    func addContactToGroup(contact: CNMutableContact) {
+        
+        createHazChatGroup()
+        
+        let saveRequest = CNSaveRequest()
+        saveRequest.addMember(contact, to: favouriteGroup!.copy() as! CNGroup)
+        
+        contactsService.executeSave(saveRequest)
+        
     }
     
     func fetchContacts() -> [ContactInfo] {

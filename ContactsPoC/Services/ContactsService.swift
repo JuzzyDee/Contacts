@@ -10,9 +10,8 @@ import Contacts
 
 protocol ContactsService {
     
-    func requestAccess()
-    func fetchContacts(_ searchTerm: String) -> [ContactInfo]
-    func createGroupIfNotExists(_ groupName: String)
+    func requestAccess(arg1: String, function: @escaping (String) -> Bool) -> Bool
+    func createGroupIfNotExists(_ groupName: String) -> Bool
     
 }
 

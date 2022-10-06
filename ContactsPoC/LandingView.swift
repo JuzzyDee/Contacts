@@ -8,9 +8,9 @@
 import SwiftUI
 import Contacts
 
+fileprivate let vm = LandingViewViewModel.init()
+
 struct LandingView: View {
-    
-    let vm = LandingViewViewModel.init()
     
     @State var contact: [CNContact]?
     @State var showPicker = false
@@ -26,8 +26,9 @@ struct LandingView: View {
                 Button(action: {
                     self.showPicker.toggle()
                 }) {
-                    Text("Pick a contact")
+                    Text("Pick Contacts to Sign In")
                 }
+                Spacer()
                 Spacer()
                 List {
                     ForEach(self.contact ?? [], id: \.self) { c in
@@ -63,7 +64,7 @@ struct ContactRow: View {
             VStack {
                 Button {
                     // Add to favourites
-                    print("Favourite \(contact.givenName)")
+                    vm.addContactToGroup(contact: contact)
                 } label: {
                     Text("Favourite")
                         .font(.caption)
