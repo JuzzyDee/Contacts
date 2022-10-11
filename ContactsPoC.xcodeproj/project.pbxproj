@@ -15,10 +15,10 @@
 		4CA0BAF728E55F1D008F9BD5 /* ContactsPoCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0BAF628E55F1D008F9BD5 /* ContactsPoCUITests.swift */; };
 		4CA0BAF928E55F1D008F9BD5 /* ContactsPoCUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0BAF828E55F1D008F9BD5 /* ContactsPoCUITestsLaunchTests.swift */; };
 		4CA0BB0628E56889008F9BD5 /* LandingViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0BB0528E56889008F9BD5 /* LandingViewViewModel.swift */; };
-		4CA0BB0828ECFB37008F9BD5 /* AddContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0BB0728ECFB37008F9BD5 /* AddContactView.swift */; };
 		4CA0BB0B28ECFC37008F9BD5 /* ContactsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0BB0A28ECFC37008F9BD5 /* ContactsService.swift */; };
 		4CA0BB0E28ECFE1A008F9BD5 /* LocalContactsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0BB0D28ECFE1A008F9BD5 /* LocalContactsService.swift */; };
 		4CA0BB1028ED22EB008F9BD5 /* ContactPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA0BB0F28ED22EB008F9BD5 /* ContactPicker.swift */; };
+		4CFD93F928F51D200043836A /* ContactButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CFD93F828F51D200043836A /* ContactButtonStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,10 +50,10 @@
 		4CA0BAF628E55F1D008F9BD5 /* ContactsPoCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsPoCUITests.swift; sourceTree = "<group>"; };
 		4CA0BAF828E55F1D008F9BD5 /* ContactsPoCUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsPoCUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		4CA0BB0528E56889008F9BD5 /* LandingViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingViewViewModel.swift; sourceTree = "<group>"; };
-		4CA0BB0728ECFB37008F9BD5 /* AddContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactView.swift; sourceTree = "<group>"; };
 		4CA0BB0A28ECFC37008F9BD5 /* ContactsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsService.swift; sourceTree = "<group>"; };
 		4CA0BB0D28ECFE1A008F9BD5 /* LocalContactsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContactsService.swift; sourceTree = "<group>"; };
 		4CA0BB0F28ED22EB008F9BD5 /* ContactPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactPicker.swift; sourceTree = "<group>"; };
+		4CFD93F828F51D200043836A /* ContactButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactButtonStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,11 +104,11 @@
 		4CA0BADA28E55F1B008F9BD5 /* ContactsPoC */ = {
 			isa = PBXGroup;
 			children = (
+				4CFD93F728F51D100043836A /* Resources */,
 				4CA0BB0C28ECFE03008F9BD5 /* Contacts */,
 				4CA0BB0928ECFC23008F9BD5 /* Services */,
 				4CA0BADB28E55F1B008F9BD5 /* ContactsPoCApp.swift */,
 				4CA0BADD28E55F1B008F9BD5 /* LandingView.swift */,
-				4CA0BB0728ECFB37008F9BD5 /* AddContactView.swift */,
 				4CA0BB0528E56889008F9BD5 /* LandingViewViewModel.swift */,
 				4CA0BADF28E55F1D008F9BD5 /* Assets.xcassets */,
 				4CA0BAE128E55F1D008F9BD5 /* Preview Content */,
@@ -156,6 +156,14 @@
 				4CA0BB0F28ED22EB008F9BD5 /* ContactPicker.swift */,
 			);
 			path = Contacts;
+			sourceTree = "<group>";
+		};
+		4CFD93F728F51D100043836A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4CFD93F828F51D200043836A /* ContactButtonStyle.swift */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,7 +301,7 @@
 				4CA0BADE28E55F1B008F9BD5 /* LandingView.swift in Sources */,
 				4CA0BB0628E56889008F9BD5 /* LandingViewViewModel.swift in Sources */,
 				4CA0BADC28E55F1B008F9BD5 /* ContactsPoCApp.swift in Sources */,
-				4CA0BB0828ECFB37008F9BD5 /* AddContactView.swift in Sources */,
+				4CFD93F928F51D200043836A /* ContactButtonStyle.swift in Sources */,
 				4CA0BB1028ED22EB008F9BD5 /* ContactPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

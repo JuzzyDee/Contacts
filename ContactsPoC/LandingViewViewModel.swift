@@ -39,9 +39,18 @@ class LandingViewViewModel : ObservableObject {
     func addContactToGroup(contact: CNMutableContact) {
         Task {
             if await createHazChatGroup() {
-                //The list was set/created. Let's save the contact to the list
                 let saveRequest = CNSaveRequest()
                 saveRequest.addMember(contact, to: favouriteGroup!.copy() as! CNGroup)
+                contactsService.executeSave(saveRequest)
+            }
+        }
+    }
+    
+    func removeContactFromGroup(contact: CNMutableContact) {
+        Task {
+            if await createHazChatGroup() {
+                let saveRequest = CNSaveRequest()
+                saveRequest.removeMember(contact, from: favouriteGroup!.copy() as! CNGroup)
                 contactsService.executeSave(saveRequest)
             }
         }

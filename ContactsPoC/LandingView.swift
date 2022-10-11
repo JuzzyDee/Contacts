@@ -22,12 +22,13 @@ struct LandingView: View {
                 onSelectContacts: {c in
                     self.contact = c})
             VStack{
-                Spacer()
                 Button(action: {
                     self.showPicker.toggle()
                 }) {
-                    Text("Pick Contacts to Sign In")
+                    Text("Pick Contacts")
                 }
+                    .buttonStyle(ContactButtonStyle())
+                    .padding(.top, 30)
                 Spacer()
                 Spacer()
                 List {
@@ -67,6 +68,7 @@ struct ContactRow: View {
                     Task {
                         if await vm.contactInGroup(contact: contact) {
                             //TO-DO JD: Remove contact from favourites group
+                            vm.removeContactFromGroup(contact: contact)
                             favIcon = "heart"
                         } else {
                             vm.addContactToGroup(contact: contact)
