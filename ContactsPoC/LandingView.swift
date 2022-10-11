@@ -66,8 +66,7 @@ struct ContactRow: View {
                     // Add to favourites
                     vm.addContactToGroup(contact: contact)
                 } label: {
-                    Text("Favourite")
-                        .font(.caption)
+                    Image(systemName: "heart.fill")
                 }
             }
         }

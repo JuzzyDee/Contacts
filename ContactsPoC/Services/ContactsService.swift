@@ -10,7 +10,7 @@ import Contacts
 
 protocol ContactsService {
     
-    func requestAccess(arg1: String, function: @escaping (String) -> Bool) -> Bool
+    func requestAccess() async -> Bool
     func createGroupIfNotExists(_ groupName: String) -> Bool
     
 }
