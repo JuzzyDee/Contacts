@@ -14,12 +14,24 @@ class LocalContactsService : ContactsService {
     @Published private(set) var contacts: [ContactInfo] = [ContactInfo.init(firstName: "", lastName: "", emailAddress: [])]
     
     private let contactStore: CNContactStore = CNContactStore()
+    
+    private let contactListName: String = "HazChat Favourite Contacts"
    
     @Published private(set) var contactGroup: CNGroup?
+    
+    init() {
+        //Request contact access when app starts to make life easier.
+        Task {
+            _ = await requestAccess()
+        }
+    }
 
     
-    func requestAccessAndCreateGroup() -> Bool {
-        return requestAccess(arg1: "HazChat Favourite Contacts", function: createGroupIfNotExists)
+    func requestAccessAndCreateGroup() async -> Bool {
+        if await requestAccess() {
+            return createGroupIfNotExists(contactListName)
+        }
+        return false
     }
     
     func executeSave(_ saveRequest: CNSaveRequest) {
@@ -30,34 +42,57 @@ class LocalContactsService : ContactsService {
          }
     }
     
-    func requestAccess(arg1: String, function: @escaping (String) -> Bool) -> Bool {
-            
-        let store = CNContactStore()
-        var createdGroup: Bool = false
+    func requestAccess() async -> Bool {
+        var accessGranted: Bool = false
         
         switch CNContactStore.authorizationStatus(for: .contacts) {
         case .authorized:
-            createdGroup = function(arg1)
+            accessGranted = true
         case .denied:
-            store.requestAccess(for: .contacts) { granted, error in
-                if granted {
-                    createdGroup = function(arg1)
-                }
+            //TO-DO JD: Try and request again, but return false if denied
+            accessGranted = false
+        case .notDetermined:
+            do {
+                accessGranted = try await contactStore.requestAccess(for: .contacts)
+            } catch {
+                print("Error requesting Contact Access: \(error)")
             }
-        case .restricted, .notDetermined:
-            store.requestAccess(for: .contacts) { granted, error in
-                if granted {
-                    createdGroup = function(arg1)
-                }
-            }
-        @unknown default:
-            print("error")
-            createdGroup = false
+        default:
+            accessGranted = false
         }
         
-        return createdGroup
-            
+        return accessGranted
+        
     }
+    
+//    func requestAccess(arg1: String, function: @escaping (String) -> Bool) -> Bool {
+//
+//        let store = CNContactStore()
+//        var createdGroup: Bool = false
+//
+//        switch CNContactStore.authorizationStatus(for: .contacts) {
+//        case .authorized:
+//            createdGroup = function(arg1)
+//        case .denied:
+//            store.requestAccess(for: .contacts) { granted, error in
+//                if granted {
+//                    createdGroup = function(arg1)
+//                }
+//            }
+//        case .restricted, .notDetermined:
+//            store.requestAccess(for: .contacts) { granted, error in
+//                if granted {
+//                    createdGroup = function(arg1)
+//                }
+//            }
+//        @unknown default:
+//            print("error")
+//            createdGroup = false
+//        }
+//
+//        return createdGroup
+//
+//    }
    
     func fetchContacts(_ searchTerm: String) -> [ContactInfo] {
         

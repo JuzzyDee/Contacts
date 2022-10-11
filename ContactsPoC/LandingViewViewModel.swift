@@ -21,24 +21,25 @@ class LandingViewViewModel : ObservableObject {
         
     }
     
-    func createHazChatGroup() {
-        if contactsService.requestAccessAndCreateGroup() {
+    func createHazChatGroup() async -> Bool {
+        if await contactsService.requestAccessAndCreateGroup() {
             favouriteGroup = contactsService.contactGroup
             print("HazChat Group(\(favouriteGroup?.name ?? "")) Set")
-        } else {
-            print("Error Creating Group")
+            return true
         }
+        print("Error Creating Group")
+        return false
     }
     
     func addContactToGroup(contact: CNMutableContact) {
-        
-        createHazChatGroup()
-        
-        let saveRequest = CNSaveRequest()
-        saveRequest.addMember(contact, to: favouriteGroup!.copy() as! CNGroup)
-        
-        contactsService.executeSave(saveRequest)
-        
+        Task {
+            if await createHazChatGroup() {
+                //The list was set/created. Let's save the contact to the list
+                let saveRequest = CNSaveRequest()
+                saveRequest.addMember(contact, to: favouriteGroup!.copy() as! CNGroup)
+                contactsService.executeSave(saveRequest)
+            }
+        }
     }
     
     func fetchContacts() -> [ContactInfo] {
