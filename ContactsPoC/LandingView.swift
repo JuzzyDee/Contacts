@@ -8,7 +8,7 @@
 import SwiftUI
 import Contacts
 
-fileprivate let vm = LandingViewViewModel.init()
+@MainActor fileprivate let vm = LandingViewViewModel.init()
 
 struct LandingView: View {
     
@@ -45,6 +45,7 @@ struct LandingView: View {
 struct ContactRow: View {
     
     var contact: CNMutableContact
+    @State var favIcon: String = "heart"
     
     var body: some View {
         HStack {
@@ -63,10 +64,22 @@ struct ContactRow: View {
         .padding()
             VStack {
                 Button {
-                    // Add to favourites
-                    vm.addContactToGroup(contact: contact)
+                    Task {
+                        if await vm.contactInGroup(contact: contact) {
+                            //TO-DO JD: Remove contact from favourites group
+                            favIcon = "heart"
+                        } else {
+                            vm.addContactToGroup(contact: contact)
+                            favIcon = "heart.fill"
+                        }
+                    }
                 } label: {
-                    Image(systemName: "heart.fill")
+                    Image(systemName: favIcon)
+                        .task {
+                            if await vm.contactInGroup(contact: contact) {
+                                favIcon = "heart.fill"
+                            }
+                        }
                 }
             }
         }

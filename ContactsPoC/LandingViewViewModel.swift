@@ -21,6 +21,11 @@ class LandingViewViewModel : ObservableObject {
         
     }
     
+    func contactInGroup(contact: CNContact) async -> Bool {
+        let returnVal = await contactsService.contactInGroup(contact: contact)
+        return returnVal
+    }
+    
     func createHazChatGroup() async -> Bool {
         if await contactsService.requestAccessAndCreateGroup() {
             favouriteGroup = contactsService.contactGroup

@@ -25,6 +25,33 @@ class LocalContactsService : ContactsService {
             _ = await requestAccess()
         }
     }
+    
+    func contactInGroup(contact: CNContact) async -> Bool {
+        
+        var result = [CNContact]()
+        
+        do {
+            if await requestAccessAndCreateGroup() {
+                let cnRequest: CNContactFetchRequest = .init(keysToFetch: [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)])
+                if let groupIdentifier = contactGroup?.identifier {
+                    cnRequest.predicate = CNContact.predicateForContactsInGroup(withIdentifier: groupIdentifier)
+                    try contactStore.enumerateContacts(with: cnRequest, usingBlock: { (contactInGroup, status) in
+                        result.append(contactInGroup)
+                    })
+                    
+                    let resultCount = result.filter {
+                        $0.givenName == contact.givenName && $0.familyName == contact.familyName
+                    }
+                    .count
+                    return resultCount != 0
+                }
+            }
+        } catch let error as NSError {
+            print("Error: \(error.localizedDescription)")
+        }
+        //If we made it here we have a group issue, so return false
+        return false
+    }
 
     
     func requestAccessAndCreateGroup() async -> Bool {
