@@ -8,7 +8,7 @@
 import SwiftUI
 import Contacts
 
-fileprivate let vm = LandingViewViewModel.init()
+@MainActor fileprivate let vm = LandingViewViewModel.init()
 
 struct LandingView: View {
     
@@ -22,12 +22,13 @@ struct LandingView: View {
                 onSelectContacts: {c in
                     self.contact = c})
             VStack{
-                Spacer()
                 Button(action: {
                     self.showPicker.toggle()
                 }) {
-                    Text("Pick Contacts to Sign In")
+                    Text("Pick Contacts")
                 }
+                    .buttonStyle(ContactButtonStyle())
+                    .padding(.top, 30)
                 Spacer()
                 Spacer()
                 List {
@@ -45,6 +46,7 @@ struct LandingView: View {
 struct ContactRow: View {
     
     var contact: CNMutableContact
+    @State var favIcon: String = "heart"
     
     var body: some View {
         HStack {
@@ -63,10 +65,23 @@ struct ContactRow: View {
         .padding()
             VStack {
                 Button {
-                    // Add to favourites
-                    vm.addContactToGroup(contact: contact)
+                    Task {
+                        if await vm.contactInGroup(contact: contact) {
+                            //TO-DO JD: Remove contact from favourites group
+                            vm.removeContactFromGroup(contact: contact)
+                            favIcon = "heart"
+                        } else {
+                            vm.addContactToGroup(contact: contact)
+                            favIcon = "heart.fill"
+                        }
+                    }
                 } label: {
-                    Image(systemName: "heart.fill")
+                    Image(systemName: favIcon)
+                        .task {
+                            if await vm.contactInGroup(contact: contact) {
+                                favIcon = "heart.fill"
+                            }
+                        }
                 }
             }
         }
